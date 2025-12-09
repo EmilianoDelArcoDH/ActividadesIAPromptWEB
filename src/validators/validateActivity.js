@@ -130,5 +130,28 @@ export function validateActivity(activity, { prompt, htmlCode, cssCode, jsCode }
         }
     }
 
+    // -----------------------------
+// VALIDAR addEventListener específico
+// -----------------------------
+if (v.jsMustContainEvent) {
+    const cleanJS = jsCode.replace(/\s+/g, " ").trim().toLowerCase();
+
+    // Patrón flexible que acepte:
+    // - comillas simples o dobles
+    // - espacios variados
+    // - function() { ... } o function () { ... }
+    // - alert con el texto correcto
+    const regex = /document\.getelementbyid\(["']miboton["']\)\.addeventlistener\(\s*["']click["']\s*,\s*function\s*\(\s*\)\s*\{\s*alert\(\s*["']¡botón clickeado!["']\s*\)\s*;\s*\}\s*\)/i;
+
+    if (!regex.test(jsCode)) {
+        return {
+            ok: false,
+            reason:
+                "Tu código JS debe agregar un addEventListener al botón 'miBoton' que muestre un alert con el texto: ¡Botón clickeado!",
+        };
+    }
+}
+
+
     return { ok: true, reason: "Todo correcto." };
 }

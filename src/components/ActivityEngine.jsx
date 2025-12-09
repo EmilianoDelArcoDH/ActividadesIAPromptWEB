@@ -290,6 +290,9 @@ ${cssCode || ""}
 </head>
 <body>
 ${activity.htmlTemplate || ""}
+<script>
+${jsCode || ""}
+</script>
 </body>
 </html>
 `;

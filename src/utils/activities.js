@@ -345,7 +345,7 @@ export const activities = [
   {
     id: "js-02",
     title: "Detectar clic y mostrar alerta",
-    tech: ["js"],
+    tech: ["html", "js"],
 
     mode: {
       studentWritesPrompt: false,
@@ -353,16 +353,80 @@ export const activities = [
       studentEditsCode: true,
     },
 
-    htmlTemplate: `
-      <button id="btn">Hacé clic</button>
-    `,
+    instruction:
+      "Generá el código JavaScript necesario para que, al hacer clic en un botón con id miBoton, se muestre una alerta con el mensaje '¡Botón clickeado!'.",
 
-    jsTemplate: `
-      // Hacé que este botón muestre una alerta al hacer clic
+    htmlTemplate: `
+      <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Botón Estilizado</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+    }
+
+    #miBoton {
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      background: #ffffff;
+      color: #333;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    #miBoton:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+    }
+
+    #miBoton:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <button id="miBoton">Clic aquí</button>
+
+</body>
+</html>
     `,
+    htmlTemplateAlum: `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Botón</title>
+</head>
+<body>
+
+  <button id="miBoton">Clic aquí</button>
+
+  <script src="script.js"></script>
+</body>
+</html>
+`,
+
+    jsTemplate: `// Hacé que este botón muestre una alerta al hacer clic`,
+
+    // Marca que esta actividad usa vista previa HTML+CSS
+    preview: {
+      useHtmlAndCss: true,
+    },
 
     validator: {
-      jsMustContain: ["addEventListener"],
+      jsMustContainEvent: true,
     },
   },
 
