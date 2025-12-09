@@ -1,7 +1,7 @@
-# Profe IA – Phi-3 Mini (React + Vite)
+# Profe IA – Llama-3.2 (React + Vite)
 
 Proyecto de ejemplo para actividades mixtas de prompt engineering y código HTML,
-usando el modelo Phi-3 Mini que corre **directamente en el navegador** vía WebLLM.
+usando el modelo Llama-3.2 que corre **directamente en el navegador** vía WebLLM.
 
 ## Requisitos
 
@@ -21,7 +21,7 @@ Luego abrí la URL que te indique Vite (por defecto http://localhost:5173).
 
 - **Modo A – Evaluar prompt**:
   - El alumno escribe un prompt para la IA.
-  - La IA (Phi-3 Mini) genera código HTML.
+  - La IA (Llama-3.2) genera código HTML.
   - Un validador revisa si el código contiene un `<h1>` con el texto exacto "Bienvenido a mi web".
 
 - **Modo B – Evaluar código**:
