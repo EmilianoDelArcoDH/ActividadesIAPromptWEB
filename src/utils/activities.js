@@ -2,7 +2,6 @@ import { html } from "@codemirror/lang-html";
 
 //activities.js
 export const activities = [
-
   // --- HTML 01 ------------------------------------------
   {
     id: "html-01",
@@ -17,6 +16,8 @@ export const activities = [
 
     promptHint:
       "Pedí a la IA un documento HTML con un <h1> que diga exactamente 'Bienvenido a mi web'.",
+
+    promptIA: "",
 
     htmlTemplate: `<!DOCTYPE html>
 <html lang="es">
@@ -96,11 +97,101 @@ export const activities = [
 </html>`,
 
     validator: {
-      minLi: 3,          // al menos 3 <li>
-      maxLi: 3,          // como mucho 3 <li>
-      liOnlyInUl: true,  // que no haya texto fuera de los <li> dentro del <ul>
-      liExactItems: ["Inicio", "Servicios", "Contacto"]
+      minLi: 3, // al menos 3 <li>
+      maxLi: 3, // como mucho 3 <li>
+      liOnlyInUl: true, // que no haya texto fuera de los <li> dentro del <ul>
+      liExactItems: ["Inicio", "Servicios", "Contacto"],
     },
+  },
+
+  //--- HTML 03 ------------------------------------------
+  {
+    id: "html-03",
+    title: "Crear página con título y párrafo",
+    tech: ["html"],
+    mode: {
+      studentWritesPrompt: false,
+      aiGeneratesCode: false,
+      studentEditsCode: true,
+    },
+    instruction:
+      "Generá un documento HTML que incluya un título <h1> con el texto 'Mi Primera Página' y un párrafo <p> con el texto '¡Hola, mundo! Bienvenidos a mi primera página web.'.",
+    htmlTemplate: `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mi Primera Página</title>
+</head>
+<body>
+  <!-- Agregá aquí el <h1> y el <p> -->
+</body>
+</html>`,
+    htmlTemplateAlum: `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mi Primera Página</title>
+</head>
+<body>
+  <!-- Agregá aquí el <h1> y el <p> -->
+</body>
+</html>`,
+
+    validator: {
+      htmlMustContain: [
+        "<h1>Mi Primera Página</h1>",
+        "<p>¡Hola, mundo! Bienvenidos a mi primera página web.</p>",
+      ],
+    },
+  },
+
+  // --- HTML 04 ------------------------------------------
+  {
+    id: "html-04",
+    title: "Crear un div con clase 'container' y un h1 dentro",
+    tech: ["html"],
+
+    mode: {
+      studentWritesPrompt: true,
+      aiGeneratesCode: true,
+      studentEditsCode: false,
+    },
+
+    promptHint:
+      "Pedí a la IA un documento HTML que contenga un <div> con la clase 'container' y dentro de ese div un <h1> con el texto 'Contenido Principal'.",
+
+    promptIA: "",
+
+    htmlTemplate: `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mi Web</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- INSERT_HTML_HERE -->
+</body>
+</html>`,
+
+    htmlTemplateAlum: `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mi Web</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Agregá aquí el div con el <h1> -->
+</body>
+</html>`,
+
+    validator: {
+      htmlMustContain: ["<h1>Contenido Principal</h1>"],
+      h1TextEquals: "Contenido Principal",
+      promptMustContain: ["h1", "contenido", "html"],
+    },
+    insertMarker: "<!-- INSERT_HTML_HERE -->",
   },
 
 
@@ -111,13 +202,15 @@ export const activities = [
     tech: ["html", "css"],
 
     mode: {
-      studentWritesPrompt: true,   // el alumno escribe el prompt
-      aiGeneratesCode: true,       // la IA genera el CSS
+      studentWritesPrompt: true, // el alumno escribe el prompt
+      aiGeneratesCode: true, // la IA genera el CSS
       studentEditsCode: false,
     },
 
     promptHint:
       "Pedí solo CSS para cambiar el color de fondo del body a lightblue. No incluyas etiquetas HTML.",
+
+    promptIA: "",
 
     // HTML que se usa para la vista previa (lo que se va a “pintar” con CSS)
     htmlTemplate: `<!DOCTYPE html>
@@ -158,7 +251,6 @@ export const activities = [
       promptMustContain: ["css", "fondo", "lightblue"],
     },
   },
-
 
   // --- CSS 02 ------------------------------------------
   {
@@ -231,6 +323,8 @@ export const activities = [
 
     promptHint:
       "Pedí una función JavaScript llamada saludo(nombre) que devuelva 'Hola ' + nombre.",
+
+    promptIA: "",
 
     htmlTemplate: `
       <!DOCTYPE html>
@@ -328,7 +422,6 @@ export const activities = [
       </html>
     `,
     jsTemplate: `// Escribí tu función acá`,
-
 
     // Marca que esta actividad usa vista previa HTML+CSS
     preview: {
@@ -429,5 +522,4 @@ export const activities = [
       jsMustContainEvent: true,
     },
   },
-
 ];

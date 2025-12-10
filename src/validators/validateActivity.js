@@ -1,11 +1,11 @@
 //validateActivity.js
-export function validateActivity(activity, { prompt, htmlCode, cssCode, jsCode }) {
+export function validateActivity(activity, { promptIA, htmlCode, cssCode, jsCode }) {
 
     const v = activity.validator;
 
     // Validar prompt
     if (v.promptMustContain) {
-        const lowerPrompt = prompt.toLowerCase();
+        const lowerPrompt = promptIA.toLowerCase();
         for (const word of v.promptMustContain) {
             if (!lowerPrompt.includes(word.toLowerCase())) {
                 return { ok: false, reason: `El prompt debe incluir: "${word}"` };

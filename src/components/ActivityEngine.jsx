@@ -11,6 +11,7 @@ import { validateActivity } from "../validators/validateActivity";
 export function ActivityEngine({ activity, engine }) {
     const { activityId } = useParams();
     const [prompt, setPrompt] = useState(activity.promptHint || "");
+    const [promptIA, setPromptIA] = useState(activity.promptIA || "");
     const [htmlCode, setHtmlCode] = useState(
         activity.htmlTemplateAlum || activity.htmlTemplate || ""
     );
@@ -23,6 +24,7 @@ export function ActivityEngine({ activity, engine }) {
 
     useEffect(() => {
         setPrompt(activity.promptHint || "");
+        setPromptIA(activity.promptIA || "");
         setHtmlCode(activity.htmlTemplateAlum || "");
         setCssCode(activity.cssTemplate || "");
         setJsCode(activity.jsTemplate || "");
@@ -67,7 +69,7 @@ Solo devolvé el código CSS que correspondería a la consigna.
                     role: "user",
                     content: `
 ${baseInstruction}Prompt del alumno:
-${prompt}
+${promptIA}
 
 Recordá: devolvé SOLO CSS, sin etiquetas <style>, sin HTML extra ni explicación en texto.
       `,
@@ -104,7 +106,9 @@ Recordá: devolvé SOLO CSS, sin etiquetas <style>, sin HTML extra ni explicaci�
             fragment = fragment.replace(/<\/?style[^>]*>/gi, "").trim();
 
             if (!fragment) {
-                console.log("⚠️ La IA devolvió fragmento vacío (CSS). NO insertamos nada.");
+                console.log(
+                    "⚠️ La IA devolvió fragmento vacío (CSS). NO insertamos nada."
+                );
                 setLoadingIA(false);
                 return;
             }
@@ -135,7 +139,7 @@ Tu respuesta debe ser solo el fragmento JS solicitado.
                     content: `
 ${baseInstruction}
 Prompt del alumno:
-${prompt}
+${promptIA}
 
 Recordá: devolvé SOLO código JavaScript. Nada de HTML, CSS o explicaciones.
         `,
@@ -180,8 +184,14 @@ Recordá: devolvé SOLO código JavaScript. Nada de HTML, CSS o explicaciones.
             console.log("🟨 Fragmento LIMPIO (JS):", fragment);
 
             // Insertar en plantilla si existe
-            if (activity.jsTemplate && activity.jsTemplate.includes("// Escribí tu función acá")) {
-                const finalJS = activity.jsTemplate.replace("// Escribí tu función acá", fragment);
+            if (
+                activity.jsTemplate &&
+                activity.jsTemplate.includes("// Escribí tu función acá")
+            ) {
+                const finalJS = activity.jsTemplate.replace(
+                    "// Escribí tu función acá",
+                    fragment
+                );
                 setJsCode(finalJS);
             } else {
                 // Si no hay plantilla, simplemente ponemos el fragmento
@@ -217,7 +227,7 @@ Template del documento:
 ${template}
 
 Prompt del alumno:
-${prompt}
+${promptIA}
 
 Respondé SOLO con el fragmento que va dentro del marcador.
 ${marker}
@@ -270,7 +280,7 @@ ${marker}
 
     function validate() {
         const evaluation = validateActivity(activity, {
-            prompt,
+            promptIA,
             htmlCode,
             cssCode,
             jsCode,
@@ -297,14 +307,14 @@ ${jsCode || ""}
 </html>
 `;
 
-
     return (
         <div
             style={{
                 minHeight: "100vh",
                 padding: "24px",
                 background: "#f3f4f6",
-                fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+                fontFamily:
+                    "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
             }}
         >
             <div
@@ -351,7 +361,9 @@ ${jsCode || ""}
                     }}
                 >
                     {/* COLUMNA IZQUIERDA */}
-                    <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                    <div
+                        style={{ display: "flex", flexDirection: "column", gap: "16px" }}
+                    >
                         {/* Consigna / Prompt para la IA / Prompt del alumno */}
                         <div
                             style={{
@@ -388,6 +400,21 @@ ${jsCode || ""}
 
                             {activity.mode.studentWritesPrompt && (
                                 <>
+                                    <div style={{ marginTop: "8px" }}>
+                                        {prompt && (
+                                            <div
+                                                style={{
+                                                    fontSize: "13px",
+                                                    fontWeight: 600,
+                                                    color: "#111827",
+                                                    marginBottom: "4px",
+                                                }}
+                                            >
+                                                Consigna: {prompt}
+                                            </div>
+                                        )}
+                                    </div>
+                                    <br></br>
                                     <div
                                         style={{
                                             fontSize: "13px",
@@ -400,8 +427,8 @@ ${jsCode || ""}
                                         Tu prompt (lo que vos le pedís a la IA)
                                     </div>
                                     <textarea
-                                        value={prompt}
-                                        onChange={(e) => setPrompt(e.target.value)}
+                                        value={promptIA}
+                                        onChange={(e) => setPromptIA(e.target.value)}
                                         rows={4}
                                         style={{
                                             width: "100%",
@@ -423,8 +450,11 @@ ${jsCode || ""}
                                             border: "none",
                                             fontSize: "14px",
                                             fontWeight: 600,
-                                            backgroundColor:
-                                                !iaReady ? "#9ca3af" : loadingIA ? "#9ca3af" : "#2563eb",
+                                            backgroundColor: !iaReady
+                                                ? "#9ca3af"
+                                                : loadingIA
+                                                    ? "#9ca3af"
+                                                    : "#2563eb",
                                             color: "#ffffff",
                                             cursor: !iaReady || loadingIA ? "default" : "pointer",
                                         }}
@@ -458,7 +488,8 @@ ${jsCode || ""}
                                                     display: "inline-block",
                                                 }}
                                             ></span>
-                                            Cargando modelo en tu navegador... puede tardar unos segundos la primera vez.
+                                            Cargando modelo en tu navegador... puede tardar unos
+                                            segundos la primera vez.
                                         </p>
                                     )}
                                 </>
@@ -712,7 +743,9 @@ ${jsCode || ""}
                                         padding: 10,
                                         borderRadius: 8,
                                         background: result.ok ? "#ecfdf5" : "#fef2f2",
-                                        border: result.ok ? "1px solid #6ee7b7" : "1px solid #fecaca",
+                                        border: result.ok
+                                            ? "1px solid #6ee7b7"
+                                            : "1px solid #fecaca",
                                         fontSize: "13px",
                                         color: "#111827",
                                     }}
@@ -738,7 +771,6 @@ ${jsCode || ""}
                             )}
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
