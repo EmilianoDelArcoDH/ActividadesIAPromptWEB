@@ -46,7 +46,7 @@ export const activities = [
     validator: {
       htmlMustContain: ["<h1>Bienvenido a mi web</h1>"],
       h1TextEquals: "Bienvenido a mi web",
-      promptMustContain: ["h1", "bienvenido", "html"],
+      promptMustContain: ["h1", "bienvenido"],
     },
     insertMarker: "<!-- INSERT_HTML_HERE -->",
   },
